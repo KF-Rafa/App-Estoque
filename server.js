@@ -85,12 +85,10 @@ app.post("/adicionar-produto", (req, res) => {
         console.error("Erro ao adicionar produto:", err);
         return res.status(500).json({ error: "Erro ao adicionar produto" });
       }
-      res
-        .status(201)
-        .json({
-          message: "Produto adicionado com sucesso",
-          id: result.insertId,
-        });
+      res.status(201).json({
+        message: "Produto adicionado com sucesso",
+        id: result.insertId,
+      });
     }
   );
 });

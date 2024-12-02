@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,14 +8,13 @@
   </head>
   <body class="dashboard-page">
     <aside class="sidebar">
-      <!-- Sidebar (mesma estrutura usada anteriormente) -->
       <header class="header">
         <h1>Aparnet</h1>
       </header>
       <div class="profile">
-        <img src="../Img_Icon/user.png" alt="user" class="profile-img" />
+        <img src="Img_Icon/user.png" alt="user" class="profile-img" />
         <h2>User</h2>
-        <p>Type User</p>
+        <p>Tipo: User</p>
       </div>
       <nav>
         <ul class="menu">
@@ -30,35 +29,60 @@
     </aside>
     <main class="content">
       <header class="header">
-        <h2>Vendas</h2>
-        <button class="button">Adicionar Vendas</button>
+        <h2>Produtos</h2>
+        <a href="Cad_Prod.html" class="button">Adicionar Produto</a>
       </header>
       <section class="table-container">
         <table>
           <thead>
             <tr>
               <th>Tipo</th>
+              <th>Espessura</th>
+              <th>Rocha</th>
+              <th>Tamanho</th>
+              <th>Acabamento</th>
               <th>Quantidade</th>
-              <th>Pagamento</th>
-              <th>Valor</th>
-              <th>Cliente</th>
-              <th>Data</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Produto 1</td>
-              <td>R$ 100,00</td>
-              <td>50</td>
-              <td>
-                <button class="button1">Editar</button>
-                <button class="button1">Excluir</button>
-              </td>
-            </tr>
-            <!-- Outras linhas -->
+            <!-- A tabela será preenchida dinamicamente -->
           </tbody>
         </table>
       </section>
     </main>
+
+    <script>
+      // Preencher a tabela com os dados do servidor
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("/produtos") // Chama a rota que retorna os produtos do banco
+          .then((response) => response.json())
+          .then((data) => {
+            const tableBody = document.querySelector("table tbody");
+            tableBody.innerHTML = ""; // Limpa a tabela
+
+            // Preenche a tabela com os produtos do banco
+            data.forEach((produto) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+              <td>${produto.tipo}</td>
+              <td>${produto.espessura} mm</td>
+              <td>${produto.rocha}</td>
+              <td>${produto.tamanho}</td>
+              <td>${produto.acabamento}</td>
+              <td>${produto.QuantidadeEstoque}</td>
+              <td>
+                <button class="button1">Editar</button>
+                <button class="button1">Excluir</button>
+              </td>
+  `;
+              tableBody.appendChild(row);
+            });
+          })
+          .catch((error) =>
+            console.error("Erro ao carregar os produtos:", error)
+          );
+      });
+    </script>
   </body>
 </html>
